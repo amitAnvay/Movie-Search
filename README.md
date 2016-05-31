@@ -10,6 +10,8 @@ Key Concepts/libraries used
 - Picasso
 - SQL Lite persistent stoarege API's
 
+For Building the project, unzip the archived project, open the project with Android studio, build and load the app on the connected Android device.
+
 Known Bugs- The Add to favourite is buggy, adding to favourite sometimes adds multiple rows on clicking the star icon. The favourite tab
 does not contain the added favourite, and needs a reload of UI to show them.
 
