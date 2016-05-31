@@ -1,0 +1,81 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+
+            <FrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/White"
+                android:visibility="gone"
+                android:padding="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                >
+
+                <EditText
+                    android:id="@+id/edtSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorGrey"
+                    android:background="@android:color/transparent"
+                    android:textStyle="bold"
+                    android:textColorHint="@color/colorPrimary"
+                    android:hint="@string/hint_text"
+                    android:paddingRight="30dp"
+                    android:singleLine="true"
+                    android:imeOptions="actionSearch"
+                    />
+
+                <Button
+                    android:id="@+id/clear_txt"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:paddingRight="3dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:background="@drawable/ic_clear_search" />
+
+            </FrameLayout>
+
+
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabTextColor="@color/White"
+            app:tabSelectedTextColor="@color/White"
+            android:gravity="center"
+            app:tabGravity="fill"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:padding="0dp"
+        android:layout_margin="0dp"
+        android:elevation="6dp"
+        android:scaleType="fitStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:src="@drawable/ic_search"
+        />
+</android.support.design.widget.CoordinatorLayout>
