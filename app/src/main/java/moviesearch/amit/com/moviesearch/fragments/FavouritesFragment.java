@@ -1,5 +1,7 @@
 package moviesearch.amit.com.moviesearch.fragments;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import moviesearch.amit.com.moviesearch.R;
 import moviesearch.amit.com.moviesearch.activities.MainTabsActivity;
@@ -53,22 +57,58 @@ public class FavouritesFragment extends Fragment {
         noMoviesFound = (TextView)view.findViewById(R.id.no_favourites_found);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
+//        fovouriteListAdapter = new FovouriteListAdapter(this.getActivity(), new CustomItemClickListener() {
+//            @Override
+//            public void onItemClick(View v, int position) {
+//                int id=v.getId();
+//
+//                switch (id){
+//                    case R.id.list_view_row:
+//                        Movie m = fovouriteListAdapter.getMovie(position);
+//                        MainTabsActivity activity = (MainTabsActivity) getActivity();
+//                        activity.showMovieDetail(m);
+//                        break;
+//                    //default:Toast.makeText(v.getContext(),"Nohting",Toast.LENGTH_LONG).show();
+//
+//                }
+//            }
+//        });
         fovouriteListAdapter = new FovouriteListAdapter(this.getActivity(), new CustomItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
                 int id=v.getId();
-
+                Movie m = fovouriteListAdapter.getMovie(position);
+                MainTabsActivity activity = (MainTabsActivity) getActivity();
                 switch (id){
+                    case R.id.img_favourite:
+                        //Toast.makeText(v.getContext(),"Favourite Image",Toast.LENGTH_LONG).show();
+                        ImageView imageView = (ImageView)v;
+                        Bitmap bm = null;
+                        MySqliteHelper sqliteHelper = activity.getSqliteHelper();
+                        if(m.isFavourite()){
+                            bm = BitmapFactory.decodeResource(v.getContext().getResources(), R.drawable.favourite7);
+                            imageView.setImageBitmap(bm);
+                            m.setFavourite(false);
+                            sqliteHelper.deleteMovie(m);
+
+                        }else {
+                            bm = BitmapFactory.decodeResource(v.getContext().getResources(), R.drawable.favourite6);
+                            imageView.setImageBitmap(bm);
+                            m.setFavourite(true);
+                            sqliteHelper.insertMovie(m);
+                        }
+                        fovouriteListAdapter.setMovie(position,m);
+                        break;
                     case R.id.list_view_row:
-                        Movie m = fovouriteListAdapter.getMovie(position);
-                        MainTabsActivity activity = (MainTabsActivity) getActivity();
                         activity.showMovieDetail(m);
                         break;
-                    //default:Toast.makeText(v.getContext(),"Nohting",Toast.LENGTH_LONG).show();
+                    default:
+                        Toast.makeText(v.getContext(),"Nohting",Toast.LENGTH_LONG).show();
 
                 }
             }
         });
+
         recyclerView.setAdapter(fovouriteListAdapter);
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(getActivity(), null));

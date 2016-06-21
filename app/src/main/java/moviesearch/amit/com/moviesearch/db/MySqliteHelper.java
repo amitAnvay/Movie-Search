@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class MySqliteHelper extends SQLiteOpenHelper {
     private static final String Movie_Title = "title";
     private static final String Movie_Year = "year";
     private static final String Movie_Poster = "poster";
+    private static final String TAG = MySqliteHelper.class.getSimpleName();
 
     private static final String[] COLUMNS = {Movie_ID, Movie_Title, Movie_Year, Movie_Poster};
 
@@ -112,6 +114,47 @@ public class MySqliteHelper extends SQLiteOpenHelper {
         db.close();
         return i;
     }
+
+    public void updateAllMovies(List movies){
+        ArrayList<Movie> movieList = (ArrayList<Movie>) movies;
+        SQLiteDatabase db = getWritableDatabase();
+        for(Movie movie: movieList){
+            ContentValues values = new ContentValues();
+            values.put(Movie_ID, movie.getImDbId());
+            values.put(Movie_Title, movie.getMovieName());
+            values.put(Movie_Year, movie.getYear());
+            values.put(Movie_Poster, movie.getPosterLink());
+            try{
+                int i = db.update(table_Movies, values, Movie_ID + " = ?", new String[]{movie.getImDbId()});
+            }catch (Exception e){
+                Log.d(TAG, "--->updateAllMovies  Movie Name"+movie.getMovieName()+" Exception:"+e.getMessage() );
+            }
+
+        }
+        db.close();
+    }
+
+    public List udpateMovieListWitIsFavourite(List movies){
+        ArrayList<Movie> movieList = (ArrayList<Movie>) movies;
+        SQLiteDatabase db = getWritableDatabase();
+        for(int i = 0; i < movieList.size(); i++) {
+            Movie movie = movieList.get(i);
+            try {
+                Cursor cursor = db.query(table_Movies, COLUMNS, Movie_ID + " = ?", new String[]{movie.getImDbId()}, null, null, null, null);
+
+                if (cursor != null && cursor.getCount() > 0) {
+                    movie.setFavourite(true);
+                    movieList.set(i, movie);
+                }
+            }catch (Exception e){
+                Log.d(TAG, "--->udpateMovieListWitIsFavourite  Movie Name"+movie.getMovieName()+" Exception:"+e.getMessage() );
+            }
+
+        }
+        db.close();
+        return movieList;
+    }
+
 
     public void deleteMovie(Movie Movie) {
         SQLiteDatabase db = getWritableDatabase();

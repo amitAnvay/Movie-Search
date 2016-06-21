@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     private Context mContext;
     private ArrayList<Movie> movieList;
     CustomItemClickListener listener;
+    private static final String TAG = MovieListAdapter.class.getSimpleName();
 
     public MovieListAdapter(Context context, CustomItemClickListener listener){
         mContext = context;
@@ -56,6 +58,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "--->On Click 1:"+vH.getPosition());
                 listener.onItemClick(v, vH.getPosition());
             }
         });
@@ -73,11 +76,15 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
         holder.listFavImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG, "--->On Click 2:"+holder.getPosition());
                 listener.onItemClick(v, holder.getPosition());
             }
         });
         if(m.isFavourite()){
             Bitmap bm = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.favourite6);
+            holder.listFavImage.setImageBitmap(bm);
+        }else {
+            Bitmap bm = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.favourite7);
             holder.listFavImage.setImageBitmap(bm);
         }
         if(m != null) {

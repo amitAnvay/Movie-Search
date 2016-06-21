@@ -110,7 +110,9 @@ public class MovieSearchFragment extends Fragment {
     public void setListData(List list){
         showList();
         Log.d(TAG, "--->OneFragment Constructor 1"+this);
-        movieListAdapter.setMoviesList(list);
+        MainTabsActivity activity = (MainTabsActivity) getActivity();
+        MySqliteHelper sqliteHelper = activity.getSqliteHelper();
+        movieListAdapter.setMoviesList(sqliteHelper.udpateMovieListWitIsFavourite(list));
         movieListAdapter.notifyDataSetChanged();
     }
 

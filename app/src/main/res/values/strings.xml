@@ -7,4 +7,5 @@
     <string name="search">SEARCH ARTICLES</string>
     <string name="hint_text"><i>Search Movies</i></string>
     <string name="title_activity_movie_detail">Movie Detail</string>
+    <string name="title_activity_main1">MainActivity1</string>
 </resources>
